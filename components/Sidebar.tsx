@@ -22,11 +22,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTool, onNavigate }) => {
       <aside className="hidden md:flex w-64 bg-white border-r border-gray-100 flex-col h-screen sticky top-0 z-30">
         <div className="p-6 pb-4 flex items-center gap-3">
            {/* Logo Placeholder */}
-          <div className="w-10 h-10 rounded-xl bg-[#5D5FEF] flex items-center justify-center text-white shadow-lg shadow-[#5D5FEF]/20">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#5D5FEF]/20">
+              <img src="https://getclevrr.com/favicon.ico" alt="Favicon" />
           </div>
           <div>
               <h1 className="text-base font-bold text-gray-900 leading-tight">
@@ -71,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTool, onNavigate }) => {
       </aside>
 
       {/* Mobile Floating Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-20 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 z-50 px-2 py-3 flex items-center justify-between overflow-x-auto hide-scrollbar">
+      <nav className="md:hidden fixed bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 z-50 px-2 py-3 flex items-center justify-between overflow-x-auto hide-scrollbar">
         {navItems.map((item) => (
             <button
             key={item.id}

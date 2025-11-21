@@ -37,11 +37,8 @@ const App: React.FC = () => {
     <div className="flex flex-col md:flex-row min-h-[100dvh] bg-white text-gray-900 font-sans">
        {/* Mobile Header */}
        <header className="md:hidden px-6 pt-6 pb-2 flex items-center gap-3 sticky top-0 bg-white z-20">
-         <div className="w-10 h-10 rounded-xl bg-[#5D5FEF] flex items-center justify-center text-white shadow-lg shadow-[#5D5FEF]/20 shrink-0">
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+         <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#5D5FEF]/20 shrink-0">
+             <img src="https://getclevrr.com/favicon.ico" alt="Favicon" />
          </div>
          <div>
              <h1 className="text-base font-bold text-gray-900 leading-tight">Clevrr Calculators</h1>
