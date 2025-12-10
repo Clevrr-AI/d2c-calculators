@@ -3,8 +3,11 @@ import { NumberInput, KPICard } from '../components/Common';
 import { GeminiInsight } from '../components/GeminiInsight';
 import { MarketingData } from '../types';
 
+interface MarketingSimulatorProps {
+  userEmail: string | null;
+}
 
-export const MarketingSimulator: React.FC = () => {
+export const MarketingSimulator: React.FC<MarketingSimulatorProps> = ({ userEmail }) => {
   const [inputs, setInputs] = useState<MarketingData>({
     targetRevenue: 1000000,
     aov: 2000,
@@ -64,7 +67,7 @@ export const MarketingSimulator: React.FC = () => {
              </div>
         </div>
 
-        <GeminiInsight context="marketing budget planning" data={{inputs, results}} />
+        <GeminiInsight context="marketing budget planning" data={{inputs, results}} userEmail={userEmail} />
       </div>
     </div>
   );

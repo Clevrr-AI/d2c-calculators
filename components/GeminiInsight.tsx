@@ -1,17 +1,37 @@
 import React, { useState } from 'react';
 import { generateFinancialInsight } from '../services/geminiService';
 import Markdown from 'react-markdown';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../services/firebase';
 
 interface GeminiInsightProps {
   context: string;
   data: any;
+  userEmail: string | null;
 }
 
-export const GeminiInsight: React.FC<GeminiInsightProps> = ({ context, data }) => {
+export const GeminiInsight: React.FC<GeminiInsightProps> = ({ context, data, userEmail }) => {
   const [insight, setInsight] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
+    setLoginError(null);
+
+    // If not logged in, prompt for Google Sign In
+    if (!userEmail) {
+      try {
+        await signInWithPopup(auth, googleProvider);
+        // Once logged in, the userEmail prop will update (via parent re-render). 
+        // We let the user click again or they can see the button state change.
+        return; 
+      } catch (error) {
+        console.error("Login failed", error);
+        setLoginError("Sign-in failed. Please try again.");
+        return;
+      }
+    }
+
     setLoading(true);
     const result = await generateFinancialInsight(context, data);
     setInsight(result);
@@ -29,12 +49,23 @@ export const GeminiInsight: React.FC<GeminiInsightProps> = ({ context, data }) =
           <button
             onClick={handleAnalyze}
             disabled={loading}
-            className="px-4 py-2 bg-[#5D5FEF] text-white text-xs font-medium rounded-lg hover:bg-[#4b4dcf] disabled:opacity-50 transition-all shadow-sm shadow-[#5D5FEF]/20"
+            className="px-4 py-2 bg-[#5D5FEF] text-white text-xs font-medium rounded-lg hover:bg-[#4b4dcf] disabled:opacity-50 transition-all shadow-sm shadow-[#5D5FEF]/20 flex items-center gap-2"
           >
-            {loading ? 'Analyzing...' : 'Generate Insights'}
+            {!userEmail && !loading && (
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            )}
+            {loading ? 'Analyzing...' : 'Generate Insights' }
           </button>
         )}
       </div>
+      
+      {loginError && (
+        <div className="mb-4 bg-rose-50 text-rose-600 text-xs p-3 rounded-lg border border-rose-100">
+            {loginError}
+        </div>
+      )}
 
       {loading && (
         <div className="animate-pulse flex space-x-4">
@@ -59,7 +90,9 @@ export const GeminiInsight: React.FC<GeminiInsightProps> = ({ context, data }) =
       )}
        {!insight && !loading && (
         <p className="text-xs text-gray-400">
-            Use Gemini 3 Pro to analyze your current simulation parameters.
+            {userEmail 
+              ? "Use Gemini 3 Pro to analyze your current simulation parameters." 
+              : "Sign in to unlock AI-powered strategic recommendations for your brand."}
         </p>
       )}
     </div>

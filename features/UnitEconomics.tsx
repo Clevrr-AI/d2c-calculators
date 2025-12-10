@@ -7,7 +7,11 @@ import { UnitEconomicsData } from '../types';
 // Minimalist muted palette
 const COLORS = ['#1a1a1a', '#525252', '#a3a3a3', '#d4d4d4', '#e5e5e5', '#f5f5f5'];
 
-export const UnitEconomics: React.FC = () => {
+interface UnitEconomicsProps {
+  userEmail: string | null;
+}
+
+export const UnitEconomics: React.FC<UnitEconomicsProps> = ({ userEmail }) => {
   const [data, setData] = useState<UnitEconomicsData>({
     sellingPrice: 1500,
     cogs: 450,
@@ -155,7 +159,7 @@ export const UnitEconomics: React.FC = () => {
             </div>
         </div>
 
-        <GeminiInsight context="unit economics" data={{inputs: data, calculated: metrics}} />
+        <GeminiInsight context="unit economics" data={{inputs: data, calculated: metrics}} userEmail={userEmail} />
       </div>
     </div>
   );

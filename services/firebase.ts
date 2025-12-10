@@ -1,3 +1,4 @@
+// @ts-ignore: Suppress "has no exported member" error due to potential type definition mismatch
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 

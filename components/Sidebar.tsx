@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { NavItem, ToolType } from '../types';
 
@@ -83,37 +84,37 @@ const toolsConfig = [
   },
   { 
     id: ToolType.BREAK_EVEN, 
-    label: 'Break Even', 
-    shortLabel: 'Break Even', 
+    label: 'Runway & Cash', 
+    shortLabel: 'Runway', 
     Icon: ScaleIcon, 
-    description: 'Zero-profit point',
+    description: 'Cash flow simulation',
     color: 'text-amber-500',
     requiresEmail: true
   },
   { 
     id: ToolType.INVENTORY, 
-    label: 'Inventory', 
+    label: 'Capital Planner', 
     shortLabel: 'Inventory', 
     Icon: BoxIcon, 
-    description: 'Stockout planner',
+    description: 'Stock & working capital',
     color: 'text-orange-700',
     requiresEmail: true
   },
   { 
     id: ToolType.PAYMENT_GATEWAY, 
-    label: 'Gateway Fees', 
-    shortLabel: 'Gateway', 
+    label: 'COD & RTO Analyzer', 
+    shortLabel: 'RTO & COD', 
     Icon: CardIcon, 
-    description: 'Net settlements',
+    description: 'Net realization calc',
     color: 'text-cyan-600',
     requiresPhone: true
   },
   { 
     id: ToolType.PRODUCT_PRICING, 
-    label: 'Pricing', 
-    shortLabel: 'Pricing', 
+    label: 'Bundle Architect', 
+    shortLabel: 'Bundles', 
     Icon: TagIcon, 
-    description: 'Margin calculator',
+    description: 'Offer strategy',
     color: 'text-yellow-500',
     requiresPhone: true
   },

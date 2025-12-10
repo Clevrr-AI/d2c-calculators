@@ -1,11 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+// Initialize the Google GenAI client using the API key directly from the environment.
+// As per guidelines, we assume process.env.API_KEY is pre-configured and valid.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateFinancialInsight = async (context: string, data: any): Promise<string> => {
-  if (!apiKey) return "API Key is missing. Please configure the environment.";
-
   try {
     const model = 'gemini-2.5-flash';
     const prompt = `

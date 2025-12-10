@@ -1,3 +1,4 @@
+
 export enum ToolType {
   UNIT_ECONOMICS = 'UNIT_ECONOMICS',
   MARKETING_BUDGET = 'MARKETING_BUDGET',
@@ -28,6 +29,9 @@ export interface BreakEvenData {
   fixedCosts: number;
   avgSellingPrice: number;
   avgVariableCost: number;
+  cashInBank: number;
+  currentMonthlyRevenue: number;
+  monthlyGrowthRate: number;
 }
 
 export interface MarketingData {

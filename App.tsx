@@ -52,12 +52,12 @@ const App: React.FC = () => {
   const renderTool = () => {
     switch (activeTool) {
       case ToolType.UNIT_ECONOMICS: 
-        return <UnitEconomics />;
+        return <UnitEconomics userEmail={userEmail} />;
       case ToolType.MARKETING_BUDGET: 
-        return <MarketingSimulator />;
+        return <MarketingSimulator userEmail={userEmail} />;
       case ToolType.BREAK_EVEN: 
         return userEmail 
-          ? <BreakEven /> 
+          ? <BreakEven userEmail={userEmail} /> 
           : <LockScreen type="email" toolName="Break-Even Analysis" onUnlock={handleEmailUnlock} />;
       case ToolType.INVENTORY: 
         return userEmail 
@@ -72,7 +72,7 @@ const App: React.FC = () => {
           ? <PricingSimulator /> 
           : <LockScreen type="phone" toolName="Pricing Simulator" onUnlock={handlePhoneUnlock} />;
       default: 
-        return <UnitEconomics />;
+        return <UnitEconomics userEmail={userEmail} />;
     }
   };
 
