@@ -1,6 +1,7 @@
 // @ts-ignore: Suppress "has no exported member" error due to potential type definition mismatch
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 // TODO: Replace the following config with your actual Firebase project credentials
 // You can find these in your Firebase Console -> Project Settings
@@ -19,3 +20,6 @@ const app = initializeApp(firebaseConfig);
 // Initialize Auth
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+// Initialize Firestore
+export const db = getFirestore(app);

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { ShareWidget } from './components/Common';
@@ -9,6 +10,7 @@ import { MarketingSimulator } from './features/MarketingSimulator';
 import { InventoryCalculator, PaymentGatewayCalculator, PricingSimulator } from './features/MiscCalculators';
 import { auth } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { syncUserOnLogin, syncUserPhone } from './services/tracking';
 
 const App: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.UNIT_ECONOMICS);
@@ -30,6 +32,7 @@ const App: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user && user.email) {
         setUserEmail(user.email);
+        syncUserOnLogin(user);
       } else {
         setUserEmail(null);
       }
@@ -42,11 +45,13 @@ const App: React.FC = () => {
   const handlePhoneUnlock = (phone: string) => {
     setUserPhone(phone);
     localStorage.setItem('clevrr_user_phone', phone);
+    syncUserPhone(phone, auth.currentUser);
   };
 
   // Handler for email unlock (triggered by successful Google Sign In in LockScreen)
   const handleEmailUnlock = (email: string) => {
     setUserEmail(email);
+    // syncUserOnLogin is handled by onAuthStateChanged effect
   };
 
   const renderTool = () => {
@@ -61,15 +66,15 @@ const App: React.FC = () => {
           : <LockScreen type="email" toolName="Break-Even Analysis" onUnlock={handleEmailUnlock} />;
       case ToolType.INVENTORY: 
         return userEmail 
-          ? <InventoryCalculator /> 
+          ? <InventoryCalculator userEmail={userEmail} /> 
           : <LockScreen type="email" toolName="Inventory Planner" onUnlock={handleEmailUnlock} />;
       case ToolType.PAYMENT_GATEWAY: 
         return userPhone 
-          ? <PaymentGatewayCalculator /> 
+          ? <PaymentGatewayCalculator userEmail={userEmail} /> 
           : <LockScreen type="phone" toolName="Gateway Fees Calculator" onUnlock={handlePhoneUnlock} />;
       case ToolType.PRODUCT_PRICING: 
         return userPhone 
-          ? <PricingSimulator /> 
+          ? <PricingSimulator userEmail={userEmail} /> 
           : <LockScreen type="phone" toolName="Pricing Simulator" onUnlock={handlePhoneUnlock} />;
       default: 
         return <UnitEconomics userEmail={userEmail} />;

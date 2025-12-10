@@ -1,12 +1,17 @@
 
 import React, { useState } from 'react';
 import { NumberInput, KPICard } from '../components/Common';
+import { GeminiInsight } from '../components/GeminiInsight';
+
+interface CalculatorProps {
+  userEmail: string | null;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                        1. SMART STOCK & CAPITAL PLANNER                    */
 /* -------------------------------------------------------------------------- */
 
-export const InventoryCalculator: React.FC = () => {
+export const InventoryCalculator: React.FC<CalculatorProps> = ({ userEmail }) => {
   const [inputs, setInputs] = useState({
     avgDailySales: 25,
     currentStock: 1200,
@@ -34,6 +39,16 @@ export const InventoryCalculator: React.FC = () => {
   const reorderDate = new Date();
   const daysUntilReorder = daysOfInventory - inputs.supplierLeadTime - inputs.safetyStockDays;
   reorderDate.setDate(reorderDate.getDate() + daysUntilReorder);
+
+  const insightData = {
+    inputs,
+    analysis: {
+        daysOfInventory,
+        status,
+        capitalRequired,
+        daysUntilReorder
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -79,6 +94,8 @@ export const InventoryCalculator: React.FC = () => {
             </div>
             <p className="text-xs text-gray-500 mt-4 text-right">Includes MOQ constraint</p>
         </div>
+
+        <GeminiInsight context="inventory and working capital planning" data={insightData} userEmail={userEmail} />
       </div>
     </div>
   );
@@ -89,7 +106,7 @@ export const InventoryCalculator: React.FC = () => {
 /*                    2. COD & RTO PROFIT ANALYZER                            */
 /* -------------------------------------------------------------------------- */
 
-export const PaymentGatewayCalculator: React.FC = () => {
+export const PaymentGatewayCalculator: React.FC<CalculatorProps> = ({ userEmail }) => {
   const [inputs, setInputs] = useState({
     asp: 1500,
     cogs: 400,
@@ -123,6 +140,16 @@ export const PaymentGatewayCalculator: React.FC = () => {
 
   // 3. Overall Weighted
   const blendedProfit = ((inputs.prepaidShare/100) * weightedPrepaidProfit) + ((codShare/100) * weightedCodProfit);
+
+  const insightData = {
+    inputs,
+    analysis: {
+        weightedPrepaidProfit,
+        weightedCodProfit,
+        blendedProfit,
+        rtoLossImpact: (inputs.asp - inputs.cogs) - blendedProfit
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -195,6 +222,8 @@ export const PaymentGatewayCalculator: React.FC = () => {
                 </div>
             </div>
         </div>
+
+        <GeminiInsight context="COD vs Prepaid profitability analysis" data={insightData} userEmail={userEmail} />
       </div>
     </div>
   );
@@ -205,7 +234,7 @@ export const PaymentGatewayCalculator: React.FC = () => {
 /*                     3. OFFER & BUNDLE ARCHITECT                            */
 /* -------------------------------------------------------------------------- */
 
-export const PricingSimulator: React.FC = () => {
+export const PricingSimulator: React.FC<CalculatorProps> = ({ userEmail }) => {
   const [inputs, setInputs] = useState({
     baseCost: 400,
     basePrice: 1500,
@@ -229,6 +258,18 @@ export const PricingSimulator: React.FC = () => {
   // Note: Shipping and CPA often stay flat or increase marginally, huge leverage point
   const bundleProfit = bundleRevenue - bundleCost;
   const bundleMargin = (bundleProfit / bundleRevenue) * 100;
+
+  const insightData = {
+    inputs,
+    analysis: {
+        singleProfit,
+        singleMargin,
+        bundleProfit,
+        bundleMargin,
+        profitMultiplier: bundleProfit > 0 ? (bundleProfit/singleProfit) : 0,
+        absoluteProfitChange: bundleProfit - singleProfit
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -311,6 +352,8 @@ export const PricingSimulator: React.FC = () => {
          <p className="text-xs text-gray-400 leading-relaxed">
             <strong>Pro Tip:</strong> Even if Margin % drops on bundles, the absolute cash profit usually increases significantly because Shipping and CAC (Marketing Cost) often remain flat per order, creating massive operating leverage.
          </p>
+
+         <GeminiInsight context="product bundling and pricing strategy" data={insightData} userEmail={userEmail} />
       </div>
     </div>
   );

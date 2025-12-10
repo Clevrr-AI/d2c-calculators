@@ -3,6 +3,7 @@ import { generateFinancialInsight } from '../services/geminiService';
 import Markdown from 'react-markdown';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../services/firebase';
+import { saveInsight } from '../services/tracking';
 
 interface GeminiInsightProps {
   context: string;
@@ -35,6 +36,7 @@ export const GeminiInsight: React.FC<GeminiInsightProps> = ({ context, data, use
     setLoading(true);
     const result = await generateFinancialInsight(context, data);
     setInsight(result);
+    saveInsight(userEmail, context, data, result);
     setLoading(false);
   };
 
