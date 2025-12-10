@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { generateFinancialInsight } from '../services/geminiService';
+import Markdown from 'react-markdown';
 
 interface GeminiInsightProps {
   context: string;
@@ -46,8 +47,8 @@ export const GeminiInsight: React.FC<GeminiInsightProps> = ({ context, data }) =
       )}
 
       {insight && (
-        <div className="prose prose-sm prose-p:text-gray-600 prose-headings:text-gray-800 max-w-none">
-            <div className="whitespace-pre-line text-sm leading-relaxed text-gray-700">{insight}</div>
+        <div className="prose prose-sm prose-p:text-gray-600 prose-headings:text-gray-800 prose-strong:text-gray-900 prose-li:text-gray-600 marker:text-gray-400 max-w-none">
+            <Markdown>{insight}</Markdown>
              <button
                 onClick={() => setInsight(null)}
                 className="mt-4 text-xs text-gray-400 hover:text-[#5D5FEF] underline transition-colors"

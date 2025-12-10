@@ -7,7 +7,7 @@ export const generateFinancialInsight = async (context: string, data: any): Prom
   if (!apiKey) return "API Key is missing. Please configure the environment.";
 
   try {
-    const model = 'gemini-3-pro-preview';
+    const model = 'gemini-2.5-flash';
     const prompt = `
       You are an expert CFO for Direct-to-Consumer (D2C) brands in India. 
       Analyze the following ${context} data and provide 3 concise, high-impact strategic recommendations using bullet points.
