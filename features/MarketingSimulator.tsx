@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NumberInput, KPICard } from '../components/Common';
 import { GeminiInsight } from '../components/GeminiInsight';
+import { AIOptimizer } from '../components/AIOptimizer';
 import { MarketingData } from '../types';
 
 interface MarketingSimulatorProps {
@@ -36,7 +37,15 @@ export const MarketingSimulator: React.FC<MarketingSimulatorProps> = ({ userEmai
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-4 bg-white p-6 rounded-xl border border-gray-100 h-fit">
-        <h2 className="text-sm font-bold text-[#5D5FEF] mb-6 uppercase tracking-wide border-b border-gray-100 pb-2">Campaign Targets</h2>
+        <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-2">
+            <h2 className="text-sm font-bold text-[#5D5FEF] uppercase tracking-wide">Campaign Targets</h2>
+            <AIOptimizer 
+                context="Marketing Budget & ROAS Planning (Goal: Maximize Efficiency)" 
+                currentData={inputs} 
+                onApply={setInputs} 
+                userEmail={userEmail}
+            />
+        </div>
         <NumberInput label="Target Revenue" value={inputs.targetRevenue} prefix="₹" onChange={v => setInputs({...inputs, targetRevenue: v})} />
         <NumberInput label="Avg Order Value (AOV)" value={inputs.aov} prefix="₹" onChange={v => setInputs({...inputs, aov: v})} />
         <NumberInput label="Target ROAS" value={inputs.targetRoas} step={0.1} helpText="Return on Ad Spend (e.g. 4.0)" onChange={v => setInputs({...inputs, targetRoas: v})} />

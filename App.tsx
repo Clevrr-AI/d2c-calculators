@@ -81,15 +81,15 @@ const App: React.FC = () => {
     }
   };
 
-  const getToolTitle = () => {
+  const getToolData = () => {
     switch (activeTool) {
-      case ToolType.UNIT_ECONOMICS: return "Unit Economics Calculator";
-      case ToolType.MARKETING_BUDGET: return "Marketing Budget Simulator";
-      case ToolType.BREAK_EVEN: return "Break-Even Analysis";
-      case ToolType.INVENTORY: return "Inventory & Stockout Planner";
-      case ToolType.PAYMENT_GATEWAY: return "Payment Gateway Fees";
-      case ToolType.PRODUCT_PRICING: return "Product Pricing Simulator";
-      default: return "Calculator";
+      case ToolType.UNIT_ECONOMICS: return {"header": "Unit Economics Calculator", "description": "Analyze Product-level profitability and Unit Economics. Get AI Insights on pricing, placement, profitability"};
+      case ToolType.MARKETING_BUDGET: return {"header": "Marketing Budget Simulator", "description": "Analyze Marketing numbers, run new numbers and predict required spends, KPIs, and more."};
+      case ToolType.BREAK_EVEN: return {"header": "Runway and Cashflow Planner", "description": "Calculate your break-even point, runway, and cash flow needs with ease. Simulate time to profitability and predict burn."};
+      case ToolType.INVENTORY: return {"header": "Inventory & Stockout Planner", "description": "Optimize your inventory levels to reduce stockouts and overstock situations. Plan working capital effectively."};
+      case ToolType.PAYMENT_GATEWAY: return {"header": "COD & RTO Analyzer", "description": "Calculate the true cost of Cash on Delivery (COD) and Return to Origin (RTO) for your e-commerce business."};
+      case ToolType.PRODUCT_PRICING: return {"header": "Smart Bundler", "description": "Create smart bundling strategies and win higher AOVs and Bigger Carts."};
+      default: return {"header": "Calculator", "description": ""};
     }
   };
 
@@ -133,8 +133,8 @@ const App: React.FC = () => {
         <header className="mb-6 md:mb-10 border-b border-gray-100 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="flex items-center justify-between w-full">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-light text-black tracking-tight">{getToolTitle()}</h1>
-                    <p className="text-gray-400 text-sm mt-2 font-light">Adjust parameters to simulate different financial scenarios.</p>
+                    <h1 className="text-2xl md:text-3xl font-light text-black tracking-tight">{getToolData().header}</h1>
+                    <p className="text-gray-400 text-sm mt-2 font-light">{getToolData().description}</p>
                 </div>
                 {userEmail && (
                     <div className="hidden md:flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">

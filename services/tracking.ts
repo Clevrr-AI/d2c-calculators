@@ -63,9 +63,27 @@ export const saveInsight = async (userEmail: string | null, context: string, inp
       inputData,
       insight: insightText,
       createdAt: serverTimestamp(),
-      deviceType: getDeviceType()
+      deviceType: getDeviceType(),
+      type: 'general_insight'
     });
   } catch (error) {
     console.error("Error saving insight to Firestore:", error);
+  }
+};
+
+export const saveOptimization = async (userEmail: string | null, context: string, originalData: any, optimizedData: any, explanation: string) => {
+  try {
+    await addDoc(collection(db, 'calculator_optimizations'), {
+      userEmail: userEmail || 'anonymous',
+      context,
+      originalData,
+      optimizedData,
+      explanation,
+      createdAt: serverTimestamp(),
+      deviceType: getDeviceType(),
+      type: 'ai_fix'
+    });
+  } catch (error) {
+    console.error("Error saving optimization to Firestore:", error);
   }
 };

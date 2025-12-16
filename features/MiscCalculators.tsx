@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { NumberInput, KPICard } from '../components/Common';
 import { GeminiInsight } from '../components/GeminiInsight';
+import { AIOptimizer } from '../components/AIOptimizer';
 
 interface CalculatorProps {
   userEmail: string | null;
@@ -53,7 +53,15 @@ export const InventoryCalculator: React.FC<CalculatorProps> = ({ userEmail }) =>
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
       <div className="md:col-span-5 bg-white p-6 rounded-xl border border-gray-100 h-fit">
-        <h2 className="text-sm font-bold text-[#5D5FEF] mb-6 uppercase tracking-wide border-b border-gray-100 pb-2">Supplier & Sales Data</h2>
+        <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-2">
+            <h2 className="text-sm font-bold text-[#5D5FEF] uppercase tracking-wide">Supplier & Sales Data</h2>
+            <AIOptimizer 
+                context="Inventory Planning (Goal: Avoid Stockout & Minimize Tied Capital)" 
+                currentData={inputs} 
+                onApply={setInputs} 
+                userEmail={userEmail}
+            />
+        </div>
         <NumberInput label="Avg Daily Unit Sales" value={inputs.avgDailySales} onChange={v => setInputs({...inputs, avgDailySales: v})} />
         <NumberInput label="Current Stock (Units)" value={inputs.currentStock} onChange={v => setInputs({...inputs, currentStock: v})} />
         <NumberInput label="Unit Cost (COGS)" value={inputs.unitCost} prefix="₹" onChange={v => setInputs({...inputs, unitCost: v})} />
@@ -155,7 +163,15 @@ export const PaymentGatewayCalculator: React.FC<CalculatorProps> = ({ userEmail 
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
       <div className="md:col-span-4 space-y-4">
          <div className="bg-white p-5 rounded-xl border border-gray-100">
-            <h2 className="text-sm font-bold text-[#5D5FEF] mb-4 uppercase tracking-wide">Order Profile</h2>
+            <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-2">
+                <h2 className="text-sm font-bold text-[#5D5FEF] uppercase tracking-wide">Order Profile</h2>
+                <AIOptimizer 
+                    context="COD vs Prepaid RTO Optimization (Goal: Maximize Realized Profit)" 
+                    currentData={inputs} 
+                    onApply={setInputs} 
+                    userEmail={userEmail}
+                />
+            </div>
             <NumberInput label="Avg Selling Price" value={inputs.asp} prefix="₹" onChange={v => setInputs({...inputs, asp: v})} />
             <NumberInput label="Prepaid Share" value={inputs.prepaidShare} suffix="%" onChange={v => setInputs({...inputs, prepaidShare: v})} />
             <div className="mt-2 text-xs text-gray-500">COD Share: {codShare}%</div>
@@ -274,7 +290,15 @@ export const PricingSimulator: React.FC<CalculatorProps> = ({ userEmail }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
       <div className="md:col-span-4 bg-white p-6 rounded-xl border border-gray-100 h-fit">
-        <h2 className="text-sm font-bold text-[#5D5FEF] mb-6 uppercase tracking-wide border-b border-gray-100 pb-2">Product Base</h2>
+        <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-2">
+            <h2 className="text-sm font-bold text-[#5D5FEF] uppercase tracking-wide">Product Base</h2>
+            <AIOptimizer 
+                context="Product Bundle Pricing (Goal: Maximize Total Cash Profit)" 
+                currentData={inputs} 
+                onApply={setInputs} 
+                userEmail={userEmail}
+            />
+        </div>
         <NumberInput label="Single Unit Cost (COGS)" value={inputs.baseCost} prefix="₹" onChange={v => setInputs({...inputs, baseCost: v})} />
         <NumberInput label="Single Unit Price" value={inputs.basePrice} prefix="₹" onChange={v => setInputs({...inputs, basePrice: v})} />
         <NumberInput label="Shipping Cost (Per Order)" value={inputs.shippingPerOrder} prefix="₹" onChange={v => setInputs({...inputs, shippingPerOrder: v})} />

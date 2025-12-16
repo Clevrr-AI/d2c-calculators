@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts';
 import { NumberInput, KPICard } from '../components/Common';
 import { GeminiInsight } from '../components/GeminiInsight';
+import { AIOptimizer } from '../components/AIOptimizer';
 import { BreakEvenData } from '../types';
 
 interface BreakEvenProps {
@@ -82,7 +82,15 @@ export const BreakEven: React.FC<BreakEvenProps> = ({ userEmail }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div className="lg:col-span-4 bg-white p-6 rounded-xl border border-gray-100 h-fit">
-        <h2 className="text-sm font-bold text-[#5D5FEF] mb-6 uppercase tracking-wide border-b border-gray-100 pb-2">Financial Inputs</h2>
+        <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-2">
+            <h2 className="text-sm font-bold text-[#5D5FEF] uppercase tracking-wide">Financial Inputs</h2>
+            <AIOptimizer 
+                context="D2C Financial Runway & Burn (Goal: Extend Runway & Shorten Time to Profit)" 
+                currentData={inputs} 
+                onApply={setInputs} 
+                userEmail={userEmail}
+            />
+        </div>
         <div className="space-y-4">
             <div className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-xs font-semibold text-gray-500 mb-3 uppercase">Unit Economics</h3>

@@ -93,7 +93,7 @@ const toolsConfig = [
   },
   { 
     id: ToolType.INVENTORY, 
-    label: 'Capital Planner', 
+    label: 'Inventory Planner', 
     shortLabel: 'Inventory', 
     Icon: BoxIcon, 
     description: 'Stock & working capital',

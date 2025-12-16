@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { NumberInput, KPICard } from '../components/Common';
 import { GeminiInsight } from '../components/GeminiInsight';
+import { AIOptimizer } from '../components/AIOptimizer';
 import { UnitEconomicsData } from '../types';
 
 // Minimalist muted palette
@@ -62,7 +63,15 @@ export const UnitEconomics: React.FC<UnitEconomicsProps> = ({ userEmail }) => {
       {/* Input Section */}
       <div className="lg:col-span-4 space-y-1">
         <div className="bg-white p-6 rounded-xl border border-gray-100">
-            <h2 className="text-sm font-bold text-[#5D5FEF] mb-6 uppercase tracking-wide border-b border-gray-100 pb-2">Parameters</h2>
+            <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-2">
+                <h2 className="text-sm font-bold text-[#5D5FEF] uppercase tracking-wide">Parameters</h2>
+                <AIOptimizer 
+                    context="D2C Unit Economics (Goal: Maximize Contribution Margin)" 
+                    currentData={data} 
+                    onApply={setData} 
+                    userEmail={userEmail}
+                />
+            </div>
             <NumberInput label="Avg Selling Price (ASP)" value={data.sellingPrice} prefix="₹" onChange={v => setData({...data, sellingPrice: v})} />
             <NumberInput label="Cost of Goods (COGS)" value={data.cogs} prefix="₹" onChange={v => setData({...data, cogs: v})} />
             <NumberInput label="Marketing CPA" value={data.marketingCpa} prefix="₹" onChange={v => setData({...data, marketingCpa: v})} />
