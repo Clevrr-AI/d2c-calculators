@@ -12,13 +12,38 @@ import { auth } from './services/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { syncUserOnLogin, syncUserPhone } from './services/tracking';
 
+// Routing Helpers
+const getToolFromHash = (hash: string): ToolType => {
+  const cleanHash = hash.replace('#', '').split('?')[0];
+  switch (cleanHash) {
+    case 'marketing': return ToolType.MARKETING_BUDGET;
+    case 'runway': return ToolType.BREAK_EVEN;
+    case 'inventory': return ToolType.INVENTORY;
+    case 'rto': return ToolType.PAYMENT_GATEWAY;
+    case 'bundles': return ToolType.PRODUCT_PRICING;
+    default: return ToolType.UNIT_ECONOMICS;
+  }
+};
+
+const getHashFromTool = (tool: ToolType): string => {
+  switch (tool) {
+    case ToolType.MARKETING_BUDGET: return 'marketing';
+    case ToolType.BREAK_EVEN: return 'runway';
+    case ToolType.INVENTORY: return 'inventory';
+    case ToolType.PAYMENT_GATEWAY: return 'rto';
+    case ToolType.PRODUCT_PRICING: return 'bundles';
+    default: return '';
+  }
+};
+
 const App: React.FC = () => {
-  const [activeTool, setActiveTool] = useState<ToolType>(ToolType.UNIT_ECONOMICS);
+  // Initialize state based on current URL hash
+  const [activeTool, setActiveTool] = useState<ToolType>(() => getToolFromHash(window.location.hash));
   
   // Auth State
   const [userEmail, setUserEmail] = useState<string | null>(null);
   
-  // Phone state still uses localStorage as it's a separate "soft lock" for specific tools
+  // Phone state
   const [userPhone, setUserPhone] = useState<string | null>(() => {
     try {
       return localStorage.getItem('clevrr_user_phone');
@@ -26,6 +51,16 @@ const App: React.FC = () => {
       return null;
     }
   });
+
+  // Listen for hash changes (Browser Back/Forward or URL manipulation)
+  useEffect(() => {
+    const handleHashChange = () => {
+      setActiveTool(getToolFromHash(window.location.hash));
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Listen for Firebase Auth changes
   useEffect(() => {
@@ -40,6 +75,20 @@ const App: React.FC = () => {
 
     return () => unsubscribe();
   }, []);
+
+  // Navigation Handler
+  const handleNavigate = (tool: ToolType) => {
+    const hash = getHashFromTool(tool);
+    if (hash) {
+      window.location.hash = hash;
+      // Note: Setting window.location.hash triggers 'hashchange', which updates activeTool via useEffect
+    } else {
+      // For root (Unit Economics), remove hash cleaner using pushState
+      window.history.pushState("", document.title, window.location.pathname + window.location.search);
+      // pushState does not trigger hashchange, so we update state manually
+      setActiveTool(ToolType.UNIT_ECONOMICS);
+    }
+  };
 
   // Handler for manual phone unlock
   const handlePhoneUnlock = (phone: string) => {
@@ -124,7 +173,7 @@ const App: React.FC = () => {
 
       <Sidebar 
         activeTool={activeTool} 
-        onNavigate={setActiveTool} 
+        onNavigate={handleNavigate} 
         hasEmail={!!userEmail}
         hasPhone={!!userPhone}
       />
